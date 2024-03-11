@@ -1,0 +1,71 @@
+No of Machines   =>  totMachine
+ No of Counts     =>  totCount
+ On date Prodn.   =>  prdkgs
+ UTD Prodn        =>  uptoPrdkgs
+ On Date Otherdepts prodn =>  othProdn
+ UTD Otherdept prodn =>  uptoOthProdn
+ On Date Waste%   =>  wasteper
+ UTD Waste%       =>  uwasteper
+ UTD RG1 Prodn    =>  rg1TKgs
+ UTD Packed Prodn =>  rg1PKgs
+ On Date Avg Count => avgCnt
+ UTD Avg Count => uptoAvgCnt
+ On date Util =>  utilPer
+ UTD all Util => uptoUtilPer
+ On date eff => effPer
+ Upto Date Eff => uptoEffPer
+
+
+
+
+
+
+Post Spinning Dashboard :
+========================
+
+Top Card Details :
+http://172.16.16.52:8100/PostSpinning/api/YarnProdn/GetTopCardDetails?divCode=01&unitCode=A&date=2023-12-05&section=A
+ 
+Machine wise Production Details:
+http://172.16.16.52:8100/PostSpinning/api/YarnProdn/GetMachinewiseProdnDetails?divCode=01&unitCode=A&date=2023-12-25&section=A
+
+Count wise Production Details:
+http://172.16.16.52:8100/PostSpinning/api/YarnProdn/GetCountwiseProdnDetails?divCode=01&unitCode=A&date=2023-12-05&section=A
+
+RG1 Production Details:
+http://172.16.16.52:8100/PostSpinning/api/YarnProdn/GetRG1ProdnDetails?divCode=01&date=2023-12-05
+
+Variety wise Production Details:
+http://172.16.16.52:8100/PostSpinning/api/YarnProdn/GetVarietywiseProdnDetails?divCode=01&unitCode=A&date=2023-12-05&section=A
+
+Machine wise utilization(%):
+http://172.16.16.52:8100/PostSpinning/api/YarnProdn/GetMachinewiseUtilDetails?divCode=01&unitCode=A&date=2023-12-05&section=A
+
+Count wise Effective Details:
+http://172.16.16.52:8100/PostSpinning/api/YarnProdn/GetCountwiseEffDetails?divCode=01&unitCode=A&date=2023-12-05&section=A
+
+
+RMI Spinning Dashboard :
+========================
+
+Top Card : http://172.16.16.52:8100/RMI/api/RMI/GetTopCardDetails?divCode=01&yearStart=2023-04-01&yearEnd=2024-03-31&fromDate=2023-12-01&toDate=2023-12-31&lotYear=2023
+
+Stock Details :
+http://172.16.16.52:8100/RMI/api/RMI/GetStockDetails?divCode=01&processingDate=2023-12-28&lotYear=2023
+
+Pending Order Details by Supplier:
+http://172.16.16.52:8100/RMI/api/RMI/GetPendingOrderDetailsbySupplier?divCode=01&processingDate=2023-12-25
+
+Mix Consumption :
+http://172.16.16.52:8100/RMI/api/RMI/GetMixConsumptionDetails?divCode=01&processingDate=2023-12-25
+
+Receipt Details Supplierwise:
+http://172.16.16.52:8100/RMI/api/RMI/GetReceiptDetailsbySupplier?divCode=01&processingDate=2023-12-25
+
+Top 10 Suppliers :
+http://172.16.16.52:8100/RMI/api/RMI/GetTopTenSuppliers?divCode=01&yearStart=2023-04-01&yearEnd=2024-03-31
+
+Stock Values in Lakhs : http://172.16.16.52:8100/RMI/api/RMI/GetStockValueinLakhs?divCode=01&yearStart=2023-04-01&yearEnd=2024-03-31&fromDate=2023-12-01&toDate=2023-12-31&lotYear=2023
+
+Avarage Consumption :
+http://172.16.16.52:8100/RMI/api/RMI/GetAvarageConsumption?divCode=01&fromDate=2023-12-01&toDate=2023-12-31
