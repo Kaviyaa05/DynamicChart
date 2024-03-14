@@ -8,6 +8,9 @@ import { catchError } from 'rxjs/operators';
 })
 export class ChartService implements OnInit {
   selectedChartData: any = null;
+  private selectedChartDataKey = 'selectedChartData';
+
+  value:any;
   private chartParameters: any[] = [];
   chartData =new EventEmitter<any>();
   constructor(private http: HttpClient) { 
@@ -27,7 +30,8 @@ export class ChartService implements OnInit {
 
   setData(data:any)
   {
-    // this.selectedChartData=null;
+    this.selectedChartData=null;
+    
     this.chartParameters.push(data);
     localStorage.setItem('selected',JSON.stringify(this.chartParameters));
     this.chartData.emit(this.chartParameters);
@@ -35,21 +39,42 @@ export class ChartService implements OnInit {
 
   getData():any
   {
-    this.selectedChartData=null;
+    console.log("get",this.chartParameters)
+     this.selectedChartData=null;
+    localStorage.setItem('selected',JSON.stringify(this.chartParameters));
     return this.chartParameters
   }
   setSelectedChartData(data:any):void{
     this.selectedChartData=data;
+    localStorage.setItem(this.selectedChartDataKey, JSON.stringify(data));
     console.log(this.selectedChartData);
+    // this.chartParameters.push(data);
+    // localStorage.setItem('selected',JSON.stringify(this.chartParameters));
+    // this.chartData.emit(this.chartParameters);
   }
-  getSelectedChartData():any{
-    return this.selectedChartData;
+  // getSelectedChartData():any{
+  
+  // console.log("hello",this.selectedChartData)
+  //   return this.selectedChartData;
+    
+    
    
+  // }
+  getSelectedChartData(): any {
+  const data=localStorage.getItem(this.selectedChartDataKey);
+   
+    this.selectedChartData = data ? JSON.parse(data) : null;
+    console.log("slectedchartservice",this.selectedChartData)
+    return this.selectedChartData;
+
   }
-  deleteChartData(param:any):void{
-    this.chartParameters.splice(param,1);
-    localStorage.setItem('selected',JSON.stringify(this.chartParameters));
+  deleteChartData(param: any): void {
+
+    this.value=param;
+    this.chartParameters=this.chartParameters.filter((item:any)=>item!==this.value);
+    localStorage.setItem('selected', JSON.stringify(this.chartParameters));
     this.chartData.emit(this.chartParameters);
+   
   }
 
 

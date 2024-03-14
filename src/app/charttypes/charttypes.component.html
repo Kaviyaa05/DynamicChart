@@ -10,6 +10,7 @@
   <div class="form-group">
     <input #yAxisInput name="yaxis" class="form-control" placeholder="Enter Y-axis keys (comma-separated)"/>
   </div>
+  <br>
   <div class="form-group">
     <input #chartName name="chartname" class="form-control" placeholder="Enter chart name"/>
   </div>
@@ -25,16 +26,23 @@
     </select>
   </div>
   <br>
+  <!-- <div>
+    <ngx-monaco-editor  #editor [options]="editorOptions" [(ngModel)]="apiResponse"></ngx-monaco-editor>
+  </div> -->
+  <div class="form-group">
+    <textarea #apiUrlInput name="api" class="form-control" placeholder="API values" [(ngModel)]="apiResponse"></textarea>
+  </div>
+  <br>
   <div class="btn-group">
     <button type="button" class="btn btn-primary" (click)="generateChart()">Generate Chart</button>
     <button type="button" class="btn btn-success" (click)="saveChartParams()">Save Chart</button>
     <!-- Add space between buttons using Bootstrap's spacing utility -->
     
-    <button type="button" class="btn btn-primary" (click)="goToTable()">Home</button>
+    <!-- <button type="button" class="btn btn-primary" (click)="goToTable()">Home</button> -->
   </div>
-
+ 
   <apx-chart *ngIf="chartOptions" [series]="chartOptions.series" [chart]="chartOptions.chart"
              [dataLabels]="chartOptions.dataLabels" [plotOptions]="chartOptions.plotOptions" [responsive]="chartOptions.responsive"
-             [xaxis]="chartOptions.xaxis" [yaxis]="chartOptions.yaxis" [labels]="chartOptions.labels"></apx-chart>
+             [xaxis]="chartOptions.xaxis" [yaxis]="chartOptions.yaxis" [labels]="chartOptions.labels" [legend]="chartOptions.legend"></apx-chart>
   <!-- ng <img [src]="chartPreviewData" alt="Chart Preview" *ngIf="chartPreviewData" /> -->
 </div>

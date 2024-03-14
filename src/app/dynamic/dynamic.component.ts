@@ -9,30 +9,31 @@ import { ChartProviderService } from '../chart-provider.service';
 })
 export class DynamicComponent implements OnInit{
 
-  cardList:any=[]
-  currentCard:any=1;
-  tableParams:any=[]
-  chartOptions:any;
+  cardList: any[] = [];
+  currentCard: number = 1;
+  tableParams: any[] = [];
+  chartOptions: any;
 
-  constructor(private service:ChartService,private chart:ChartProviderService) {
+  constructor(private service:ChartService,private chartProvider:ChartProviderService) {
   }
 
   ngOnInit(): void {
-    // this.tableParams=this.service.getData();
-    //   this.service.chartData.subscribe((data:any) => {
-    //     this.tableParams=data;
-    //   })
-    //   console.log("dynamic",this.tableParams)
+    this.tableParams = this.service.getData();
+    this.service.chartData.subscribe((data: any) => {
+      this.tableParams = data;
+    });
   }
 
-  GenerateChart()
-  {
-   this.chartOptions= this.chart.generateChart();
-   console.log("Hello",this.chartOptions)
+  GenerateChart(chartName: string): void {
+    const selectedChart = this.tableParams.find(chart => chart.chartName === chartName);
+    if (selectedChart) {
+      this.chartOptions = this.chartProvider.generateChart(selectedChart);
+    } else {
+      console.error('Chart not found.');
+    }
   }
-  Add()
-  {
-    this.cardList.push(this.currentCard)
+  Add(): void {
+    this.cardList.push(this.currentCard);
     this.currentCard++;
   }
 

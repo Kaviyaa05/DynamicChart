@@ -27,7 +27,7 @@ export class ChartProviderService implements OnInit {
       this.tableParams=data;
     })
     // this.generateChart();
-    console.log("chartr",this.chartNames)
+    console.log("chart",this.chartNames)
 this.setParams();
 this.service.getChartData(this.chartParams.apiUrl).subscribe(
   (data: any[]) => {
@@ -148,11 +148,11 @@ this.service.getChartData(this.chartParams.apiUrl).subscribe(
   };
 
  
-  generateChart() {
-    const xAxisValues =this.chartParams.xAxisValues;
-    const yAxisValues = this.chartParams.yAxisValues
-    const apiUrl = this.chartParams.apiUrl;
-    this.selectedChartType=this.chartParams.selectedChartType;
+  generateChart(chartParams: any): any {
+    const xAxisValues =chartParams.xAxisValues;
+    const yAxisValues = chartParams.yAxisValues
+    const apiUrl = chartParams.apiUrl;
+    this.selectedChartType=chartParams.selectedChartType;
     
 
     if (!apiUrl || xAxisValues.length === 0 || yAxisValues.length === 0) {

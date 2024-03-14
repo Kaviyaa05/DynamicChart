@@ -25,11 +25,14 @@ export class TableComponent implements OnInit {
     this.tableData=this.service.getData();
     this.service.chartData.subscribe((data)=>{
       this.tableData=data;
+      
 
       
     })
   }
   goToAddChart(){
+this.editingChart=null;
+this.service.setSelectedChartData(this.editingChart);
     this.route.navigate(['/chart']);
     // this.resetForm();
   }
@@ -49,7 +52,7 @@ export class TableComponent implements OnInit {
 
   }
   deleteChartParams(param:any):void{
-    console.log('Deleting item at index:', param);
+
       this.service.deleteChartData(param);
       // this.tableData.splice(index,1);
 

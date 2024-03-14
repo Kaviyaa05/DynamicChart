@@ -1,25 +1,24 @@
 <button (click)="Add()">Click</button>
 <div class="row">
-    <div class="col-xl-4" *ngFor="let item of cardList">
-        <div class="card">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <!-- <button (click)="GenerateChart()">Chart</button> -->
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      Charts
-                    </button>
-                    <ul class="dropdown-menu">
-                      <li><a class="dropdown-item" style="cursor: pointer;" (click)="GenerateChart()">Top10 Suppliers</a></li>
-                      <li><a class="dropdown-item" href="#">Stock Chart</a></li>
-                      <li><a class="dropdown-item" href="#">Pending Order</a></li>
-                    </ul>
-                  </div>
-                </div>
-            <div class="card-body p-0">
-                <apx-chart *ngIf="chartOptions" [series]="chartOptions.series" [chart]="chartOptions.chart"
-             [dataLabels]="chartOptions.dataLabels" [plotOptions]="chartOptions.plotOptions" [responsive]="chartOptions.responsive"
-             [xaxis]="chartOptions.xaxis" [labels]="chartOptions.labels"></apx-chart>
-            </div>
+  <div class="col-xl-4" *ngFor="let item of cardList">
+    <div class="card">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Charts
+          </button>
+          <ul class="dropdown-menu">
+            <li *ngFor="let param of tableParams">
+              <a class="dropdown-item" style="cursor: pointer;" (click)="GenerateChart(param.chartName)">{{ param.chartName }}</a>
+            </li>
+          </ul>
         </div>
+      </div>
+      <div class="card-body p-0">
+        <apx-chart *ngIf="chartOptions" [series]="chartOptions.series" [chart]="chartOptions.chart"
+                   [dataLabels]="chartOptions.dataLabels" [plotOptions]="chartOptions.plotOptions" [responsive]="chartOptions.responsive"
+                   [xaxis]="chartOptions.xaxis" [labels]="chartOptions.labels"></apx-chart>
+      </div>
     </div>
+  </div>
 </div>

@@ -25,10 +25,14 @@ export class CharttypesComponent implements AfterViewInit {
   selectedChartType: ChartType = ChartType.VerticalBar;
   // isHorizontal: boolean = false;
   // isStacked: boolean = false;
-  chartPreviewData: string | null = null;
+  editorOptions = {
+    theme: 'vs-dark',
+    language: 'json'
+  };
+  apiResponse :string= ''; // Initialize your model
 
   constructor(private router: Router,private route: ActivatedRoute, private chartService: ChartService,private service:ChartProviderService) {
-    
+   
   }
 
   @ViewChild('xAxisInput') xAxisInput!: ElementRef;
@@ -137,6 +141,7 @@ export class CharttypesComponent implements AfterViewInit {
     if (this.editingChartData!=null) {
       this.populateForm();
       console.log("edit",this.editingChartData);
+      
      
     }
     else{
@@ -158,9 +163,12 @@ export class CharttypesComponent implements AfterViewInit {
       this.xAxisInput.nativeElement.value = this.editingChartData.xAxisValues.join(',');
       this.yAxisInput.nativeElement.value = this.editingChartData.yAxisValues.join(',');
       this.apiUrlInput.nativeElement.value = this.editingChartData.apiUrl;
+     
       this.chartTypeSelect.nativeElement.value=this.editingChartData.selectedChartType;
       this.chartName.nativeElement.value=this.editingChartData.chartName;
+      this.selectedChartType= this.chartTypeSelect.nativeElement.value;
     }
+  
   }
   resetForm():void{
     this.apiUrlInput.nativeElement.value='';
@@ -191,33 +199,43 @@ export class CharttypesComponent implements AfterViewInit {
           x: xAxisValues.map((key: string) => item[key]),
           y: yAxisValues.map((key: string) => item[key])
         }));
-        
+        this.apiResponse=JSON.stringify(transformedData,null, 2)
         const selectedChartOptions = this.chartTypeMap[this.selectedChartType];
         if (selectedChartOptions) {
+          // console.log("came")
           this.chartOptions = {
             series: transformedData[0].y.map((_: any, index: number) => ({
+              name: yAxisValues[index],
              
               data: transformedData.map((item: any) => parseFloat(item.y[index]))
+              
             })),
             ...selectedChartOptions, 
             dataLabels: {
               enabled: false
             },
-            yaxis:{
-              title:{
-                text:yAxisValues
-              }
+            yaxis: {
+              title: {
+                text: yAxisValues.join(' / ')
+              },
             },
+            
             xaxis: {
-              categories: transformedData.map((item: { x: any[]; }) => item.x.join(', ')),
-              title:{
-                text:xAxisValues
-              }
+              title: {
+                text: xAxisValues
+              },
+
+              categories:transformedData.map((item: { x: any[]; }) => item.x.join(', '))
             },
+           legend:{
+            position:"right",
+           
+           },
             labels: 
                transformedData.map((item: { x: any[]; }) => item.x.join(', '))
             
           };
+         
           if(selectedChartOptions.chart.type=='pie')
           {
             this.chartOptions.series=transformedData.map(item => parseFloat(item.y))
@@ -238,9 +256,9 @@ export class CharttypesComponent implements AfterViewInit {
   
   }
 
-  goToTable(): void {
-    this.router.navigate(['/table']);
-  }
+  // goToTable(): void {
+  //   this.router.navigate(['/table']);
+  // }
   
 
   saveChartParams(): void {
@@ -248,17 +266,22 @@ export class CharttypesComponent implements AfterViewInit {
       apiUrl: this.apiUrlInput.nativeElement.value,
       xAxisValues: this.xAxisInput.nativeElement.value.split(','),
       yAxisValues: this.yAxisInput.nativeElement.value.split(','),
-      selectedChartType: this.selectedChartType,
+      selectedChartType: this.chartTypeSelect.nativeElement.value,
       chartName:this.chartName.nativeElement.value
      
     };
-      localStorage.setItem('selectedChartParams', JSON.stringify(selectedChartParams));
+      // localStorage.setItem('selectedChartParams', JSON.stringify(selectedChartParams));
       if(this.editingChartData!=null){
-                const index=this.chartService.getData().findIndex((chart:any)=>chart===this.editingChartData);
-                    if(index!==-1){
+        console.log("hiiooo")
+                const index=this.chartService.getData().findIndex((chart:any)=>chart.chartName===this.editingChartData.chartName);
+                console.log("eeeeeeeee",this.editingChartData);
+                console.log("num",index);
+                    if(index !== -1){
+                      console.log("num",index)
+                      console.log("eeeeeeeinsideee",this.editingChartData);
                       this.chartService.getData()[index]=selectedChartParams;
                       console.log("chart data gets updated.");
-                      // this.editingChartData = null;
+                     
                       this.resetForm()
                     }
                   }
@@ -266,6 +289,8 @@ export class CharttypesComponent implements AfterViewInit {
                     this.chartService.setData(selectedChartParams);
                     console.log("New chart added");
                   }  
+                  this.router.navigate(['/table']);
   }
   
 }
+
