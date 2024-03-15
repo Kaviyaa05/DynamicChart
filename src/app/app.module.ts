@@ -12,6 +12,7 @@ import { TableComponent } from './table/table.component';
 import { MonacoComponent } from './monaco/monaco.component';
 import { MonacoEditorModule, NgxMonacoEditorConfig } from 'ngx-monaco-editor-v2';
 import { DynamicComponent } from './dynamic/dynamic.component';
+import { ChartService } from './chart.service';
 
 // const monacoConfig: NgxMonacoEditorConfig = {
 //   baseUrl: 'app-name/assets', // configure base path for monaco editor. Starting with version 8.0.0 it defaults to './assets'. Previous releases default to '/assets'
@@ -45,7 +46,8 @@ import { DynamicComponent } from './dynamic/dynamic.component';
    
   ],
   providers: [
-    provideClientHydration()
+    provideClientHydration(),
+    ChartService
   ],
   bootstrap: [AppComponent]
 })

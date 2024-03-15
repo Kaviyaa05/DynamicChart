@@ -10,7 +10,7 @@ import { ChartProviderService } from '../chart-provider.service';
 export class DynamicComponent implements OnInit{
 
   cardList: any[] = [];
-  currentCard: number = 1;
+  currentCard: any = 1;
   tableParams: any[] = [];
   chartOptions: any;
 
@@ -22,18 +22,27 @@ export class DynamicComponent implements OnInit{
     this.service.chartData.subscribe((data: any) => {
       this.tableParams = data;
     });
+    
+      this.cardList=JSON.parse(localStorage.getItem("card")|| '[]')
+      this.chartOptions=JSON.parse(localStorage.getItem("options") || "[]")
+      this.currentCard=this.cardList.length+1;
   }
 
-  GenerateChart(chartName: string): void {
+  GenerateChart(chartName: string, cardIndex: number): void {
     const selectedChart = this.tableParams.find(chart => chart.chartName === chartName);
+    console.log("sele", selectedChart);
     if (selectedChart) {
-      this.chartOptions = this.chartProvider.generateChart(selectedChart);
+      // Update the chartOptions array at the specific index corresponding to the card
+      this.chartOptions[cardIndex] = this.chartProvider.generateChart(selectedChart);
+      localStorage.setItem("options", JSON.stringify(this.chartOptions));
     } else {
       console.error('Chart not found.');
     }
+    console.log(this.chartOptions);
   }
   Add(): void {
     this.cardList.push(this.currentCard);
+    localStorage.setItem("card",JSON.stringify(this.cardList))
     this.currentCard++;
   }
 

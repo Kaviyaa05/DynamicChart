@@ -1,6 +1,6 @@
 <button (click)="Add()">Click</button>
 <div class="row">
-  <div class="col-xl-4" *ngFor="let item of cardList">
+  <div class="col-xl-4" *ngFor="let item of cardList; let i = index">
     <div class="card">
       <div class="card-header d-flex justify-content-between align-items-center">
         <div class="dropdown">
@@ -9,15 +9,16 @@
           </button>
           <ul class="dropdown-menu">
             <li *ngFor="let param of tableParams">
-              <a class="dropdown-item" style="cursor: pointer;" (click)="GenerateChart(param.chartName)">{{ param.chartName }}</a>
+              <a class="dropdown-item" style="cursor: pointer;" (click)="GenerateChart(param.chartName,i )">{{ param.chartName }}</a>
             </li>
           </ul>
         </div>
       </div>
       <div class="card-body p-0">
-        <apx-chart *ngIf="chartOptions" [series]="chartOptions.series" [chart]="chartOptions.chart"
-                   [dataLabels]="chartOptions.dataLabels" [plotOptions]="chartOptions.plotOptions" [responsive]="chartOptions.responsive"
-                   [xaxis]="chartOptions.xaxis" [labels]="chartOptions.labels"></apx-chart>
+        <apx-chart *ngIf="chartOptions[i]" [series]="chartOptions[i].series" [chart]="chartOptions[i].chart"
+        [dataLabels]="chartOptions[i].dataLabels" [plotOptions]="chartOptions[i].plotOptions" [responsive]="chartOptions[i].responsive"
+        [xaxis]="chartOptions[i].xaxis" [labels]="chartOptions[i].labels">
+</apx-chart>
       </div>
     </div>
   </div>
