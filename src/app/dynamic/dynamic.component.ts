@@ -13,6 +13,7 @@ export class DynamicComponent implements OnInit{
   currentCard: number = 1;
   tableParams: any[] = [];
   chartOptions: any;
+  
 
   constructor(private service:ChartService,private chartProvider:ChartProviderService) {
   }
@@ -22,19 +23,34 @@ export class DynamicComponent implements OnInit{
     this.service.chartData.subscribe((data: any) => {
       this.tableParams = data;
     });
+    this.cardList=JSON.parse(localStorage.getItem("cards")||"[]");
+    this.chartOptions=JSON.parse(localStorage.getItem("chartOptions")||"[]");
+    this.currentCard=this.cardList.length;
   }
 
   GenerateChart(chartName: string): void {
     const selectedChart = this.tableParams.find(chart => chart.chartName === chartName);
     if (selectedChart) {
-      this.chartOptions = this.chartProvider.generateChart(selectedChart);
+      console.log("daaataa", selectedChart);
+      this.chartProvider.generateChart(selectedChart).subscribe(
+        (chartOptions: any) => {
+          this.chartOptions = chartOptions;
+          localStorage.setItem("chartOptions",JSON.stringify(this.chartOptions));
+        },
+        (error: any) => {
+          console.error('Error generating chart:', error);
+        }
+      );
     } else {
       console.error('Chart not found.');
     }
   }
+  
   Add(): void {
     this.cardList.push(this.currentCard);
+    localStorage.setItem("cards",JSON.stringify(this.cardList));
     this.currentCard++;
+
   }
 
 }

@@ -1,5 +1,6 @@
 import { Injectable, OnInit } from '@angular/core';
 import { ChartService } from './chart.service';
+import { Observable } from 'rxjs';
 
 enum ChartType {
   VerticalBar = 'bar',
@@ -28,32 +29,32 @@ export class ChartProviderService implements OnInit {
     })
     // this.generateChart();
     console.log("chart",this.chartNames)
-this.setParams();
-this.service.getChartData(this.chartParams.apiUrl).subscribe(
-  (data: any[]) => {
-    console.log("data",data);
-    this.transformedData = data.map((item: any) => ({
-      x: this.chartParams.xAxisValues.map((key: string) => item[key]),
-      y:this.chartParams.yAxisValues.map((key: string) => item[key])
-    }));
-})
+// this.setParams();
+// this.service.getChartData(this.chartParams.apiUrl).subscribe(
+//   (data: any[]) => {
+//     console.log("data",data);
+//     this.transformedData = data.map((item: any) => ({
+//       x: this.chartParams.xAxisValues.map((key: string) => item[key]),
+//       y:this.chartParams.yAxisValues.map((key: string) => item[key])
+//     }));
+// })
     
 }
   ngOnInit(): void {
   }
 
-  setParams()
-  {
-    this.chartParams={
-      xAxisValues :this.tableParams[this.chartIndex]?.xAxisValues,
-     yAxisValues : this.tableParams[this.chartIndex]?.yAxisValues,
-      apiUrl :this.tableParams[this.chartIndex]?.apiUrl,
-     selectedChartType:this.tableParams[this.chartIndex]?.selectedChartType,
-      chartName:this.tableParams[this.chartIndex]?.chartName
-    }
-    this.chartIndex++
-    console.log(this.chartIndex)
-  }
+  // setParams()
+  // {
+  //   this.chartParams={
+  //     xAxisValues :this.tableParams[this.chartIndex]?.xAxisValues,
+  //    yAxisValues : this.tableParams[this.chartIndex]?.yAxisValues,
+  //     apiUrl :this.tableParams[this.chartIndex]?.apiUrl,
+  //    selectedChartType:this.tableParams[this.chartIndex]?.selectedChartType,
+  //     chartName:this.tableParams[this.chartIndex]?.chartName
+  //   }
+  //   this.chartIndex++
+  //   console.log(this.chartIndex)
+  // }
 
   chartTypeMap = {
     [ChartType.VerticalBar]: {
@@ -148,10 +149,12 @@ this.service.getChartData(this.chartParams.apiUrl).subscribe(
   };
 
  
-  generateChart(chartParams: any): any {
+  generateChart(chartParams: any):Observable< any >{
+return new Observable(observer=>{
+    const apiUrl = chartParams.apiUrl;
     const xAxisValues =chartParams.xAxisValues;
     const yAxisValues = chartParams.yAxisValues
-    const apiUrl = chartParams.apiUrl;
+   
     this.selectedChartType=chartParams.selectedChartType;
     
 
@@ -159,45 +162,69 @@ this.service.getChartData(this.chartParams.apiUrl).subscribe(
       console.log('Please provide values for API URL, X-axis, and Y-axis.');
       return;
     }
-    // this.service.getChartData(apiUrl).subscribe(
-    //   (data: any[]) => {
-    //     console.log("data",data);
-    //     const transformedData = data.map((item: any) => ({
-    //       x: xAxisValues.map((key: string) => item[key]),
-    //       y: yAxisValues.map((key: string) => item[key])
-    //     }));
-        
+    this.service.getChartData(apiUrl).subscribe(
+      (data: any[]) => {
+        console.log("dataapi",data);
+        const transformedData = data.map((item: any) => ({
+          x: xAxisValues.map((key: string) => item[key]),
+          y: yAxisValues.map((key: string) => item[key])
+        }));
+        console.log("td",transformedData);
         const selectedChartOptions = this.chartTypeMap[this.selectedChartType];
         if (selectedChartOptions) {
-          this.chartOptions = {
-            series: this.transformedData[0].y.map((_: any, index: number) => ({
-              // name: `Series ${index + 1}`,
-              data: this.transformedData.map((item: any) => parseFloat(item.y[index]))
+          console.log("hi1")
+          const chartOptions = {
+           
+            series: transformedData[0].y.map((_: any, index: number) => ({
+              name: yAxisValues[index],
+              data: transformedData.map((item: any) => parseFloat(item.y[index]))
+             
             })),
+          
             ...selectedChartOptions, 
+            
             dataLabels: {
               enabled: false
             },
-            
-            xaxis: {
-              categories: this.transformedData.map((item: { x: any[]; }) => item.x.join(', '))
+            yaxis: {
+              title: {
+                text: yAxisValues.join(' / ')
+              },
             },
+            xaxis: {
+              title: {
+                text: xAxisValues
+              },
+
+              categories:transformedData.map((item: { x: any[]; }) => item.x.join(', '))
+            },
+            legend:{
+              position:"right",
+             
+             },
             labels: 
-               this.transformedData.map((item: { x: any[]; }) => item.x.join(', '))
-            
+               transformedData.map((item: { x: any[]; }) => item.x.join(', '))
+             
           };
           if(selectedChartOptions.chart.type=='pie')
           {
-            this.chartOptions.series=this.transformedData.map((item: { y: string; }) => parseFloat(item.y))
-          }
+            chartOptions.series=transformedData.map((item: { y: string; }) => parseFloat(item.y))
+          }  console.log("chartOptions",this.chartOptions)
+          observer.next(chartOptions);
+        observer.complete();
+        
         } else {
           console.error('Invalid chart type selected.');
+          observer.error("Invalid chart type selected")
         }
-      // }
-      // (error: any) => {
-      //   console.error('Error fetching data:', error);
-      // }
+      },
+      (error: any) => {
+        console.error('Error fetching data:', error);
+        observer.error("Error fetching data");
+      }
+    );
   
-    return this.chartOptions;
-  }
+  
+  });
+}
 }
