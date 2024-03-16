@@ -13,7 +13,8 @@ export class DynamicComponent implements OnInit{
   currentCard: number = 1;
   tableParams: any[] = [];
   chartOptions: any;
-  
+  currentCardName:string='';
+  chartOptionsMap:{[key:string]:any}={};
 
   constructor(private service:ChartService,private chartProvider:ChartProviderService) {
   }
@@ -25,6 +26,7 @@ export class DynamicComponent implements OnInit{
     });
     this.cardList=JSON.parse(localStorage.getItem("cards")||"[]");
     this.chartOptions=JSON.parse(localStorage.getItem("chartOptions")||"[]");
+    this.currentCardName=JSON.parse(localStorage.getItem("currentCardName")||"[]");
     this.currentCard=this.cardList.length;
   }
 
@@ -36,6 +38,9 @@ export class DynamicComponent implements OnInit{
         (chartOptions: any) => {
           this.chartOptions = chartOptions;
           localStorage.setItem("chartOptions",JSON.stringify(this.chartOptions));
+          this.currentCardName=selectedChart.chartName;
+          localStorage.setItem("currentCardName",JSON.stringify(this.currentCardName));
+          
         },
         (error: any) => {
           console.error('Error generating chart:', error);
