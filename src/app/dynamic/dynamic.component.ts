@@ -13,7 +13,8 @@ export class DynamicComponent implements OnInit{
   currentCard: any = 1;
   tableParams: any[] = [];
   chartOptions: any;
-  
+  currentCardName:any;
+  chartOptionsMap:{[key:string]:any}={};
 
   constructor(private service:ChartService,private chartProvider:ChartProviderService) {
   }
@@ -25,6 +26,7 @@ export class DynamicComponent implements OnInit{
     });
     this.cardList=JSON.parse(localStorage.getItem("cards")||"[]");
     this.chartOptions=JSON.parse(localStorage.getItem("chartOptions")||"[]");
+    this.currentCardName=JSON.parse(localStorage.getItem("currentCardName")||"[]");
     this.currentCard=this.cardList.length+1;
   }
 
@@ -37,6 +39,9 @@ export class DynamicComponent implements OnInit{
         (chartOptions: any) => {
           this.chartOptions[cardIndex] = chartOptions;
           localStorage.setItem("chartOptions",JSON.stringify(this.chartOptions));
+          this.currentCardName[cardIndex]=selectedChart.chartName;
+          localStorage.setItem("currentCardName",JSON.stringify(this.currentCardName));
+          
         },
         (error: any) => {
           console.error('Error generating chart:', error);
@@ -58,15 +63,20 @@ export class DynamicComponent implements OnInit{
 
   DeleteCard()
   {
-    if(this.chartOptions.length!=this.cardList.length)
+    if(this.chartOptions.length!=this.cardList.length )
     {
+      this.currentCardName.pop()
+      localStorage.setItem("currentCardName",JSON.stringify(this.currentCardName));
       this.cardList.pop()
       localStorage.setItem("cards",JSON.stringify(this.cardList));
+      
     }
     else if(this.chartOptions.length==this.cardList.length)
     {
       this.chartOptions.pop()
       localStorage.setItem("chartOptions",JSON.stringify(this.chartOptions));
+      this.currentCardName.pop()
+      localStorage.setItem("currentCardName",JSON.stringify(this.currentCardName));
       this.cardList.pop()
       localStorage.setItem("cards",JSON.stringify(this.cardList));
     }
