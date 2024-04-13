@@ -1,22 +1,19 @@
 <div class="container">
-  <button type="button" class="btn btn-primary mb-3" (click)="goToAddChart()">Add Chart</button> 
+  <button type="button" class="btn btn-primary m-3" (click)="goToAddChart()">Add Chart</button> 
 
   <table class="table table-striped">
     <thead>
       <tr>
-        <!-- <th>ID</th> -->
         <th>ChartName</th>
         <th>API URL</th>
         <th>X-axis</th>
         <th>Y-axis</th>
         <th>Chart Type</th>
-        <!-- <th>Chart Preview</th> -->
         <th>Actions</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let param of tableData">
-        <!-- <td>{{ param.id }}</td> -->
         <td>{{ param.chartName }}</td>
         <td>{{ param.apiUrl }}</td>
         <td>{{ param.xAxisValues }}</td>
@@ -32,12 +29,9 @@
             </button>
           </div>
         </td>
-        <!-- <td><img [src]="param.chartPreviewData" alt="Chart Preview" width="100"></td> -->
-        <!-- <td>
-          <button (click)="editChartParams(param)">Edit</button>
-          <button (click)="deleteChartParams(param.id)">Delete</button>
-        </td> -->
       </tr>
     </tbody>
   </table>
+  <button type="button" class="btn btn-primary mb-3" (click)="goToDashboard()">Dashboard</button> 
+
 </div>

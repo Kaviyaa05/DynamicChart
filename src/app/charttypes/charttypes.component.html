@@ -1,22 +1,46 @@
 <div #chartContainer class="container mt-4">
   <div class="form-group">
-    <input #apiUrlInput name="api" class="form-control" placeholder="Enter the API URL"/>
+    <input
+      #apiUrlInput
+      name="api"
+      class="form-control"
+      placeholder="Enter the API URL"
+    />
   </div>
-  <br>
+  <br />
   <div class="form-group">
-    <input #xAxisInput name="xaxis" class="form-control" placeholder="Enter X-axis keys (comma-separated)"/>
+    <input
+      #xAxisInput
+      name="xaxis"
+      class="form-control"
+      placeholder="Enter X-axis keys (comma-separated)"
+    />
   </div>
-  <br>
+  <br />
   <div class="form-group">
-    <input #yAxisInput name="yaxis" class="form-control" placeholder="Enter Y-axis keys (comma-separated)"/>
+    <input
+      #yAxisInput
+      name="yaxis"
+      class="form-control"
+      placeholder="Enter Y-axis keys (comma-separated)"
+    />
   </div>
-  <br>
+  <br />
   <div class="form-group">
-    <input #chartName name="chartname" class="form-control" placeholder="Enter chart name"/>
+    <input
+      #chartName
+      name="chartname"
+      class="form-control"
+      placeholder="Enter chart name"
+    />
   </div>
-  <br>
+  <br />
   <div class="form-group">
-    <select #chartTypeSelect class="form-control" (change)="onChartTypeChange($event)" >
+    <select
+      #chartTypeSelect
+      class="form-control"
+      (change)="onChartTypeChange($event)"
+    >
       <option value="bar">Bar Chart</option>
       <option value="horizontalBar">Horizontal Bar Chart</option>
       <option value="stackedBar">Stacked Bar Chart</option>
@@ -25,24 +49,39 @@
       <option value="pie">Pie Chart</option>
     </select>
   </div>
-  <br>
+  <br />
   <!-- <div>
     <ngx-monaco-editor  #editor [options]="editorOptions" [(ngModel)]="apiResponse"></ngx-monaco-editor>
   </div> -->
   <div class="form-group">
-    <textarea #apiUrlInput name="api" class="form-control" placeholder="API values" [(ngModel)]="apiResponse"></textarea>
+    <textarea
+      #apiUrlInput
+      name="api"
+      class="form-control"
+      placeholder="API values"
+      [(ngModel)]="apiResponse"
+    ></textarea>
   </div>
-  <br>
+  <br />
   <div class="btn-group">
-    <button type="button" class="btn btn-primary" (click)="generateChart()">Generate Chart</button>
-    <button type="button" class="btn btn-success" (click)="saveChartParams()">Save Chart</button>
-    <!-- Add space between buttons using Bootstrap's spacing utility -->
-    
-    <!-- <button type="button" class="btn btn-primary" (click)="goToTable()">Home</button> -->
+    <button type="button" class="btn btn-primary" (click)="generateChart()">
+      Generate Chart
+    </button>
+    <button type="button" class="btn btn-success" (click)="saveChartParams()">
+      Save Chart
+    </button>
   </div>
- 
-  <apx-chart *ngIf="chartOptions" [series]="chartOptions.series" [chart]="chartOptions.chart"
-             [dataLabels]="chartOptions.dataLabels" [plotOptions]="chartOptions.plotOptions" [responsive]="chartOptions.responsive"
-             [xaxis]="chartOptions.xaxis" [yaxis]="chartOptions.yaxis" [labels]="chartOptions.labels" [legend]="chartOptions.legend"></apx-chart>
-  <!-- ng <img [src]="chartPreviewData" alt="Chart Preview" *ngIf="chartPreviewData" /> -->
+
+  <apx-chart
+    *ngIf="chartOptions"
+    [series]="chartOptions.series"
+    [chart]="chartOptions.chart"
+    [dataLabels]="chartOptions.dataLabels"
+    [plotOptions]="chartOptions.plotOptions"
+    [responsive]="chartOptions.responsive"
+    [xaxis]="chartOptions.xaxis"
+    [yaxis]="chartOptions.yaxis"
+    [labels]="chartOptions.labels"
+    [legend]="chartOptions.legend"
+  ></apx-chart>
 </div>

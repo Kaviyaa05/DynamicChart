@@ -65,8 +65,6 @@ export class DynamicComponent implements OnInit{
   {
     if(this.chartOptions.length!=this.cardList.length )
     {
-      this.currentCardName.pop()
-      localStorage.setItem("currentCardName",JSON.stringify(this.currentCardName));
       this.cardList.pop()
       localStorage.setItem("cards",JSON.stringify(this.cardList));
       
